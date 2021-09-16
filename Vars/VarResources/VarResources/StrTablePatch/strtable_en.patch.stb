@@ -1,7 +1,21 @@
-﻿#
-#
-#
+﻿# シン・テレワークシステム アプリケーション内 UI カスタマイズファイル
+# (言語: 英語)
+# 
+# このファイルの内容は、シン・テレワークシステム プライベート版の構築を行なう際に、必ず変更すること。
+# 
+# 詳しくは、構築マニュアルの以下の節を参照すること。
+# 8-1. アプリケーションの UI の高度なカスタマイズ方法
+# 8-2. アプリケーションの ID (AppId) の変更によるユニーク化
 
+
+# シン・テレワークシステム プライベート版構築者向け TODO:
+# 以下の項目の文字列は、必ず変更し、ユニーク化すること。
+# 以下の項目は、Windows の「スタートメニュー」のフォルダ名や、
+# プログラムのアンインストール項目名として使用されるものである。
+# いずれも、ユニークなものにしなければならない。
+# 詳しくは、構築マニュアル「8-2. アプリケーションの ID (AppId) の変更によるユニーク化」を参照すること。
+
+# --- ユニーク化の必要性 ここから ---
 $APPFULL$                   Thin Telework System (Private Version)
 $APPFULL_SERVER$            Thin Telework System Server (Private Version)
 $APPFULL_CLIENT$            Thin Telework System Client (Private Version)
@@ -16,12 +30,29 @@ $APPVERYSHORT_CLIENT$       Thin Telework Private Client
 
 $APPSHORT_EN$               Thin Telework System Private Version
 
+# ※ $APP_ID_PREFIX$ の値は、Vars.h の APP_ID_PREFIX に指定する文字列をすべて大文字にした文字列を指定すること。
 $APP_ID_PREFIX$				PRIVATE
+# --- ユニーク化の必要性 ここまで ---
 
 
-
+# 「バージョン情報」でボタンをクリックすると表示される、ソフトウェア情報の URL リンクを指定すること。
+# 企業内部社員向けの URL でよい。
 SE_COMPANY_URL			http://telework.cyber.ipa.go.jp/
 
+# Windows のプログラムのアンインストール項目名に記載される URL と発行元名を指定すること。
 SW_UNINSTALLINFO_URL						https://telework.cyber.ipa.go.jp/
 SW_UNINSTALLINFO_PUBLISHER					IPA
+
+# SE_COMPANY_URL と同じ URL を指定すること。
+$THINWEB_WEBPAGE_LINK$		https://telework.cyber.ipa.go.jp/
+
+# HTML5 版 Web サイト内のサーバーアプリのダウンロードリンクの URL を指定すること。
+# 企業内部社員向けの URL でよい。
+$THINWEB_DOWNLOAD_LINK$		https://telework.cyber.ipa.go.jp/
+
+# Win32 版シン・テレワークシステム アプリケーションのトップ画面の「Web ブラウザ版」というボタンを
+# クリックする際に表示される URL を指定すること。
+# なお、空白文字列にすると、ボタンが UI 上から消える。
+# 空白文字列に設定することは良いが、文字列項目自体は削除しないこと。
+$THINWEB_WEBAPP_TOP_URL$	https://webapp.telework.cyber.ipa.go.jp/
 
