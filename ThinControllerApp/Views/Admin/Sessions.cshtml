@@ -5,9 +5,11 @@
 @{
     var view = Controller.GetAdminView();
 
+    string gateIp = Context.Request._GetQueryStringFirst("ip");
+
     int index = 0;
 
-    foreach (var gate in view.GatesList)
+    foreach (var gate in view.GatesList.Where(x => gateIp._IsEmpty() || x.IpAddress._IsSamei(gateIp)))
     {
         <hr>
 

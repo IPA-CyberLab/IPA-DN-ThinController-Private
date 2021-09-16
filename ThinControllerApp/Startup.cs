@@ -110,6 +110,8 @@ namespace IPA.App.ThinControllerApp
 
             // 全ページ共通コンテキストの注入
             services.AddScoped<PageContext>();
+
+            ThinController.Db.StartLoop();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

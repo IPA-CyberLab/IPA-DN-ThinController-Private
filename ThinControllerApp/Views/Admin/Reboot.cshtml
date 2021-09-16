@@ -1,0 +1,28 @@
+﻿@{
+    Page.Title = "中継ゲートウェイの強制再起動";
+    string error_str = ((string)ViewBag.ErrorStr)._NonNullTrim();
+}
+
+@{
+    <h2>中継ゲートウェイの強制再起動 (危険！操作時 大変注意)</h2>
+    <form method="post">
+        以下で指定した時刻になった瞬間に、中継ゲートウェイプロセスを強制的に終了 (kill) し、プロセスを再起動します。<br />
+        <br />
+        対象の中継ゲートウェイの IP アドレス範囲 (例: 1.2.3.0/24, 5.6.0.0/16 等 カンマまたは改行で複数指定可能):<br />
+        ※ 注意: 0.0.0.0/0 と指定すると、すべての中継ゲートウェイを再起動することになります。また、1.2.3.4 のように IP アドレスのみを指定すると、/32 と同じ意味になります。<br />
+        <label id="Label1"><textarea cols="45" name="Subnets" rows="10">@ViewBag.Subnets</textarea></label><br />
+        <br />
+        対象の中継ゲートウェイをいつ再起動するか:<br />
+        <input name="When" type="text" value="@ViewBag.When" /><br /><BR>
+        入力方法<br />
+        (1) 空欄の場合は、再起動時刻指令をクリアします。<br />
+        (2) &quot;2021/08/23 15:40:20&quot; のように、YYYY/MM/DD HH:MM:SS
+        形式で指定すると、その時刻に再起動を行ないます。この中継コントローラのローカル時刻 (UTC @DateTime.Now._AsDateTimeOffset(true, true).ToString("%K")) で指定してください。 <br />
+        (3) 60 のように、10 から 86400 までの整数を入力すると、指定された秒数後に再起動をします。たとえば、3600 と入力すると、1
+        時間後に再起動します。<br />
+        <br />
+        <p style="color: @(ViewBag.Ok ? "green" : "red"); font-weight: bold">@error_str</p>
+        <input name="Button1" type="submit" value="自動強制再起動時刻を設定します (危険)" /><br />
+    </form>
+
+}

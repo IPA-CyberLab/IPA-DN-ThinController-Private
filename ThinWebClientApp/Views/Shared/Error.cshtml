@@ -2,6 +2,9 @@
 @{
     Page.Title = Page.Stb["THINWEB_ERROR"];
 
+    bool allowHtml = false;
+    string icon = "fas fa-exclamation-triangle";
+
     string ErrorStr = ThinWebClientErrorUtil.GetFriendlyErrorMessage(Model.ErrorInfo, Page);
 
     VpnException? vpnError = Model.ErrorInfo as VpnException;
@@ -23,6 +26,15 @@
     }
 
     string jsTitle = Page.Stb["THINWEB_ERROR_MSG"];
+
+    if (vpnError?.Error == VpnError.ERR_DESK_GUACD_NOT_SUPPORTED_VER)
+    {
+        // サーバーアプリのアップデートが必要
+        jsTitle = "接続に成功しました";
+        ErrorStr = "接続先「シン・テレワークシステム サーバー」のバージョンが古い (2021 年 8 月以前のバージョンである) ため、HTML5 版クライアントによる接続を行なうためには、一回だけ、アップデートする必要があります。<BR><BR>お手数ですが、接続先「シン・テレワークシステム サーバー」のバージョンを、2021 年 8 月以降にリリースされたできるだけ新しいバージョンにアップデート</a></b> してください。<BR><BR>アップデートするために接続先 「シン・テレワークシステム サーバー」 に接続するためには、既存の通常クライアントアプリ版の 「シン・テレワークシステム クライアント」 をご利用いただけます。<BR><BR>アップデートを実施いただくことにより、すぐに、この画面から HTML5 版クライアントで接続ができるようになります。";
+        allowHtml = true;
+        icon = "far fa-thumbs-up";
+    }
 
 }
 
@@ -49,7 +61,7 @@
 
     <!-- Init -->
     <script>
-        Main.ThinWebClient_Error_PageLoad(window, document, "@ErrorStr._JavaScriptSafeStrEncode()", "@jsTitle._JavaScriptSafeStrEncode()", "@url._JavaScriptSafeStrEncode()");
+        Main.ThinWebClient_Error_PageLoad(window, document, "@ErrorStr._JavaScriptSafeStrEncode()", "@jsTitle._JavaScriptSafeStrEncode()", "@url._JavaScriptSafeStrEncode()", @allowHtml._ToBoolStrLower(), "@icon");
     </script>
 
 }

@@ -383,7 +383,7 @@ export async function Remote_ShowImeWarningAsync(): Promise<void>
     }
 }
 
-export function ThinWebClient_Error_PageLoad(window: Window, page: Document, message: string, title: string, redirectUrl: string): void
+export function ThinWebClient_Error_PageLoad(window: Window, page: Document, message: string, title: string, redirectUrl: string, allowHtml = false, icon = "fas fa-exclamation-triangle"): void
 {
     message = Str.JavaScriptSafeStrDecode(message);
     redirectUrl = Str.JavaScriptSafeStrDecode(redirectUrl);
@@ -391,7 +391,7 @@ export function ThinWebClient_Error_PageLoad(window: Window, page: Document, mes
 
     Task.StartAsyncTaskAsync(async function () 
     {
-        if (await Html.DialogConfirmAsync(message, title, false, "is-info", "fas fa-exclamation-triangle", true, Stb["THINWEB_JS_OK"], Stb["THINWEB_JS_DETAIL"], true))
+        if (await Html.DialogConfirmAsync(message, title, allowHtml, "is-info", icon, true, Stb["THINWEB_JS_OK"], Stb["THINWEB_JS_DETAIL"], true))
         {
             Html.NativateTo(redirectUrl);
         }
@@ -926,24 +926,8 @@ export function ThinWebClient_Remote_PageLoad(window: Window, page: Document, we
 
     let autoFullScreenInitiated = false;
 
-
-    //document.addEventListener("keyup", event =>
-    //{
-    //    if (isDebug)
-    //    {
-    //        console.log("--keyup--");
-    //        console.log(event);
-    //    }
-    //});
-
     document.addEventListener("keydown", event =>
     {
-        //if (isDebug)
-        //{
-        //    console.log("--keydown--");
-        //    console.log(event);
-        //}
-
         userInputOccured = true;
 
         let showError = false;

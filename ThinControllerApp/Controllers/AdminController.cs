@@ -56,6 +56,8 @@ namespace IPA.App.ThinControllerApp.Controllers
         {
             _logger = logger;
             this.Controller = controller;
+
+            this.Controller.Db.StartLoop();
         }
 
         public IActionResult Index()
@@ -80,6 +82,85 @@ namespace IPA.App.ThinControllerApp.Controllers
 
         public IActionResult Stat()
         {
+            return View();
+        }
+
+        public IActionResult Reboot(string? subnets, string? when)
+        {
+            subnets = subnets._NonNull();
+            when = when._NonNull();
+
+            ViewBag.Ok = false;
+
+            string error = "";
+
+            if (this._IsPostBack())
+            {
+                if (subnets._IsEmpty())
+                {
+                    error = "サブネット一覧が指定されていません。";
+                }
+                else
+                {
+                    int secs = 0;
+                    DateTime dt = ZeroDateTimeValue;
+
+                    if (when._IsFilled())
+                    {
+                        if (when._IsNumber())
+                        {
+                            secs = when._ToInt();
+                            if (secs < 10 || secs > 86400)
+                            {
+                                error = "秒数が許容範囲外です。";
+                            }
+                        }
+
+                        if (secs == 0)
+                        {
+                            try
+                            {
+                                dt = when._ToDateTime(false, true);
+                            }
+                            catch
+                            {
+                                error = "日時指定が不正です。";
+                            }
+
+                            if (dt._IsZeroDateTime())
+                            {
+                                error = "日時指定が不正です。";
+                            }
+                        }
+                        else
+                        {
+                            dt = DtNow.AddSeconds(secs);
+                        }
+                    }
+                    else
+                    {
+                        dt = Util.MaxDateTimeValue;
+                    }
+
+                    var acl = EasyIpAcl.GetOrCreateCachedIpAcl(subnets, EasyIpAclAction.Deny, EasyIpAclAction.Deny);
+                    if (acl.RuleList.Any() == false)
+                    {
+                        error = "IP アドレスのルールが 1 つも正しく指定されていません。";
+                    }
+                    else
+                    {
+                        int ret = this.Controller.SessionManager.UpdateNextRebootTime(acl, dt);
+
+                        error = $"{ret} 個の中継ゲートウェイの再起動時刻を {dt._AsDateTimeOffset(true, true)._ToDtStr(zeroDateTimeStr: "「解除」")} に設定しました。結果は、「ゲートウェイ一覧」から表示できます。";
+                        ViewBag.Ok = true;
+                    }
+                }
+            }
+
+            ViewBag.Subnets = subnets;
+            ViewBag.When = when;
+            ViewBag.ErrorStr = error;
+
             return View();
         }
 
