@@ -53,7 +53,7 @@ $THINWEB_DOWNLOAD_LINK$		https://telework.cyber.ipa.go.jp/
 # クリックする際に表示される URL を指定すること。
 # なお、空白文字列にすると、ボタンが UI 上から消える。
 # 空白文字列に設定することは良いが、文字列項目自体は削除しないこと。
-$THINWEB_WEBAPP_TOP_URL$	https://webapp.telework.cyber.ipa.go.jp/aaa
+$THINWEB_WEBAPP_TOP_URL$	https://webapp.telework.cyber.ipa.go.jp/
 
 
 # メモリ不足の場合に表示されるメッセージの指定
