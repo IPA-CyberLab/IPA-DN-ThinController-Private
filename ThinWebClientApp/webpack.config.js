@@ -3,6 +3,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("optimize-css-assets-webpack-plugin");
 const NoOpPlugin = require('noop-webpack-plugin')
+const LicensePack = require('license-info-webpack-plugin').default;
 
 const node_env = process.env.NODE_ENV;
 const is_production = (node_env === "production");
