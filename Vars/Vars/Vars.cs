@@ -143,30 +143,46 @@ namespace IPA.App.ThinVars
                 opt.ClientCertficateMode = ClientCertificateMode.NoCertificate;
 
                 // クライアント証明書認証を行なう場合は、クライアントが提示した証明書が受け入れ可能かどうかを検証する任意の判定式を以下に記述します。
+                // 注意: クライアント証明書認証は、スタンドアロン版の ThinGate (中継ゲートウェイ) のリバースプロキシ機能を利用する場合には利用できません。
                 if (opt.ClientCertficateMode == ClientCertificateMode.RequireCertificate)
                 {
-                    // 以下のサンプルコードでは、
+                    // 提示されたクライアント証明書を検証するためのコールバック関数です。
+                    // true を返した場合は、認証に成功したとみなされます。
+                    // false を返すか、例外が発生した場合、認証に失敗したとみなされます。
                     opt.ClientCertificateValidator = (cert, chain, err) =>
                     {
-                        var clientCertObject = cert.AsPkiCertificate();
+                        Certificate clientCertObject = cert.AsPkiCertificate(); // この clientCertObject 変数に、クライアントが提示したクライアント証明書が入っています。
 
+                        // 提示されたクライアント証明書が、サンプルのルート CA ファイル
+                        // 「IPA-DNP-ThinController-Public/Vars/VarResources/VarResources/ThinWebClient_ClientCertAuth_SampleCerts/01_thin_html5_cert_auth_sample_root_ca.cer」
+                        // によって署名されているかどうかを確認します。
+                        // clientCertObject.CheckIfSignedByAnyOfParentCertificatesListOrExactlyMatch() メソッドの第一引数の配列には、
+                        // 複数の CA 証明書を示す変数を指定できます。
+                        // 以下のサンプルでは CA 証明書は 1 つしか指定していませんが、2 つ以上指定することもできます。
+                        // この場合は、いずれかの CA 証明書によって署名されている場合、認証を通過することになります。
+                        // また、通常の運用ではあまり推奨されませんが、独自のクライアント証明書ファイルそのものを
+                        // clientCertObject.CheckIfSignedByAnyOfParentCertificatesListOrExactlyMatch() メソッドの第一引数の配列に
+                        // 指定することにより、提示されたクライアント証明書と、第一引数で指定された証明書が完全一致する場合に
+                        // 認証を通過させることも可能です。これは、非常に小規模な運用において有益です。
                         if (clientCertObject.CheckIfSignedByAnyOfParentCertificatesListOrExactlyMatch(
                             new Certificate[] {
                                 Certs.Html5ClientCertAuth_RootCaCert,
                             },
                             out bool exactlyMatchToRootCa) == false)
                         {
+                            // CA によって署名されていません。
                             throw new CoresLibException($"The client SSL certificate '{clientCertObject}' is not trusted by any of root CA certificates.");
                         }
                         else if (exactlyMatchToRootCa == false)
                         {
+                            // 提示された証明書の有効期限が切れている場合は、認証に失敗させます。
                             if (cert.AsPkiCertificate().IsExpired())
                             {
                                 throw new CoresLibException($"The client SSL certificate '{clientCertObject}' is expired or not valid. NotBefore = '{clientCertObject.NotBefore._ToDtStr()}', NotAfter = '{clientCertObject.NotAfter._ToDtStr()}'");
                             }
                         }
 
-                        return true;
+                        return true; // 認証に成功しました。
                     };
                 }
             }
