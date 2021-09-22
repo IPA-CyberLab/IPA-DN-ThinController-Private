@@ -14,6 +14,7 @@
 // この Vars.cs ファイルは、シン・テレワークシステムを設置するユーザー側で書き換えて動作をカスタマイズするためのファイルです。
 
 #pragma warning disable CA2235 // Mark all non-serializable fields
+#pragma warning disable CS1998 // 非同期メソッドは、'await' 演算子がないため、同期的に実行されます
 
 using System;
 using System.Buffers;
@@ -149,7 +150,7 @@ namespace IPA.App.ThinVars
                     // 提示されたクライアント証明書を検証するためのコールバック関数です。
                     // true を返した場合は、認証に成功したとみなされます。
                     // false を返すか、例外が発生した場合、認証に失敗したとみなされます。
-                    opt.ClientCertificateValidator = (cert, chain, err) =>
+                    opt.ClientCertificateValidatorAsync = async (cert, chain, err) =>
                     {
                         Certificate clientCertObject = cert.AsPkiCertificate(); // この clientCertObject 変数に、クライアントが提示したクライアント証明書が入っています。
 
