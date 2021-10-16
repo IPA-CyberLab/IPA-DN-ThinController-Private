@@ -1,6 +1,6 @@
-BODY, TR, TABLE, TD, H1, H2, H3, H4, P, LI, DIV
+ï»¿BODY, TR, TABLE, TD, H1, H2, H3, H4, P, LI, DIV
 {
-	font-family:"Verdana", "Geneva", "Arial", "Helvetica", "sans-serif", "‚l‚r ‚oƒSƒVƒbƒN", "MS UI Gothic";
+	font-family:"Verdana", "Geneva", "Arial", "Helvetica", "sans-serif", "ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯", "MS UI Gothic";
 	font-size:96%;
 	line-height:1.6em;
 }
@@ -161,7 +161,7 @@ UL LI P
 }
 
 #seBanner
-/* • 820 */
+/* å¹… 820 */
 {
 	padding-top: 0px;
 	padding-right: 0px;
@@ -190,7 +190,7 @@ UL LI P
 }
 
 #seToolbar
-/*• 820 */
+/*å¹… 820 */
 {
 	width: 819px;
 	border-right: 1px #666666 solid;
@@ -243,14 +243,14 @@ UL LI P
 }
 
 #seBody
-/* ‡Œv• 820 */
+/* åˆè¨ˆå¹… 820 */
 {
 	background-image: url("common_images/menu_back.gif");
 	background-repeat: repeat-y;
 	width: 820px;
 }
 #seContent
-	/* ‡Œv• 600px */
+	/* åˆè¨ˆå¹… 600px */
 {
 	width: 584px;
 	padding-left: 10px;
@@ -266,7 +266,7 @@ UL LI P
 }
 
 #seMenu
-	/* ‡Œv• 220px */
+	/* åˆè¨ˆå¹… 220px */
 	/*background-color:#C8D8FF;*/
 {
 	width: 220px;
@@ -274,7 +274,7 @@ UL LI P
 }
 
 #seNavi
-/* ‡Œv• 820 */
+/* åˆè¨ˆå¹… 820 */
 {
 	font-size: 8pt;
 	color: #888888;
@@ -302,7 +302,7 @@ UL LI P
 
 
 A.seMenu:link, A.seMenu:visited
-	/* ‡Œv• 220px */
+	/* åˆè¨ˆå¹… 220px */
 {
 	font-weight: bold;
 	font-size: 9pt;

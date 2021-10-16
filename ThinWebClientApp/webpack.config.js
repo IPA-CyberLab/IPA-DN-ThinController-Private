@@ -1,4 +1,4 @@
-/// <binding Clean="Run - Development" ProjectOpened="Watch - Development" />
+ï»¿/// <binding Clean="Run - Development" ProjectOpened="Watch - Development" />
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("optimize-css-assets-webpack-plugin");
@@ -53,7 +53,7 @@ module.exports = {
         new BomPlugin(true),
     ],
     module: {
-        // ’ˆÓ: loader ‚Í‰º‚©‚ç‡‚É“Ç‚İ‚Ü‚ê‚Ü‚·B
+        // æ³¨æ„: loader ã¯ä¸‹ã‹ã‚‰é †ã«èª­ã¿è¾¼ã¾ã‚Œã¾ã™ã€‚
         rules: [
             {
                 test: /\.(ts|tsx)$/,
@@ -79,7 +79,7 @@ module.exports = {
                         loader: MiniCssExtractPlugin.loader,
                     },
                     {
-                        // Bulma ‚Ì CSS ‚Å img ‚É height:auto ‚ªw’è‚³‚ê‚Ä‚¨‚èAInternet Explorer ‚Å‰æ‘œƒTƒCƒY‚ª‚¨‚©‚µ‚­‚È‚é–â‘è‚ğ CSS ‚ğ“®“I‚É‚¢‚¶‚Á‚Ä‰ğŒˆ
+                        // Bulma ã® CSS ã§ img ã« height:auto ãŒæŒ‡å®šã•ã‚Œã¦ãŠã‚Šã€Internet Explorer ã§ç”»åƒã‚µã‚¤ã‚ºãŒãŠã‹ã—ããªã‚‹å•é¡Œã‚’ CSS ã‚’å‹•çš„ã«ã„ã˜ã£ã¦è§£æ±º
                         // https://github.com/jgthms/bulma/issues/342
                         loader: "string-replace-loader",
                         options: {
@@ -88,7 +88,7 @@ module.exports = {
                         }
                     },
                     {
-                        // Bulma ‚Ì CSS ‚Å img ‚É height:auto ‚ªw’è‚³‚ê‚Ä‚¨‚èAInternet Explorer ‚Å‰æ‘œƒTƒCƒY‚ª‚¨‚©‚µ‚­‚È‚é–â‘è‚ğ CSS ‚ğ“®“I‚É‚¢‚¶‚Á‚Ä‰ğŒˆ
+                        // Bulma ã® CSS ã§ img ã« height:auto ãŒæŒ‡å®šã•ã‚Œã¦ãŠã‚Šã€Internet Explorer ã§ç”»åƒã‚µã‚¤ã‚ºãŒãŠã‹ã—ããªã‚‹å•é¡Œã‚’ CSS ã‚’å‹•çš„ã«ã„ã˜ã£ã¦è§£æ±º
                         // https://github.com/jgthms/bulma/issues/342
                         loader: "string-replace-loader",
                         options: {
@@ -97,7 +97,7 @@ module.exports = {
                         }
                     },
                     {
-                        // Bulma ‚Ì CSS ‚Å img ‚É height:auto ‚ªw’è‚³‚ê‚Ä‚¨‚èAInternet Explorer ‚Å‰æ‘œƒTƒCƒY‚ª‚¨‚©‚µ‚­‚È‚é–â‘è‚ğ CSS ‚ğ“®“I‚É‚¢‚¶‚Á‚Ä‰ğŒˆ
+                        // Bulma ã® CSS ã§ img ã« height:auto ãŒæŒ‡å®šã•ã‚Œã¦ãŠã‚Šã€Internet Explorer ã§ç”»åƒã‚µã‚¤ã‚ºãŒãŠã‹ã—ããªã‚‹å•é¡Œã‚’ CSS ã‚’å‹•çš„ã«ã„ã˜ã£ã¦è§£æ±º
                         // https://github.com/jgthms/bulma/issues/342
                         loader: "string-replace-loader",
                         options: {
@@ -106,7 +106,7 @@ module.exports = {
                         }
                     },
                     {
-                        // Bulma ‚Ì CSS ‚Å img ‚É height:auto ‚ªw’è‚³‚ê‚Ä‚¨‚èAInternet Explorer ‚Å‰æ‘œƒTƒCƒY‚ª‚¨‚©‚µ‚­‚È‚é–â‘è‚ğ CSS ‚ğ“®“I‚É‚¢‚¶‚Á‚Ä‰ğŒˆ
+                        // Bulma ã® CSS ã§ img ã« height:auto ãŒæŒ‡å®šã•ã‚Œã¦ãŠã‚Šã€Internet Explorer ã§ç”»åƒã‚µã‚¤ã‚ºãŒãŠã‹ã—ããªã‚‹å•é¡Œã‚’ CSS ã‚’å‹•çš„ã«ã„ã˜ã£ã¦è§£æ±º
                         // https://github.com/jgthms/bulma/issues/342
                         loader: "string-replace-loader",
                         options: {
