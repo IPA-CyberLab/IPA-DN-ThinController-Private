@@ -21,7 +21,7 @@ import { default as Guacamole } from "./submodules/IPA-DN-WebNeko/Libraries/guac
 import { Util } from "./submodules/IPA-DN-WebNeko/Scripts/Common/Base/Util";
 import { Str } from "./submodules/IPA-DN-WebNeko/Scripts/Common/Base/Str";
 import { GuaComfortableKeyboard, GuaConnectedKeyboard, GuaKeyCodes, GuaUtil, GuaStates, GuaConsts, GuaResizeManager } from "./submodules/IPA-DN-WebNeko/Scripts/Misc/GuaUtil/GuaUtil";
-import { Html } from "./submodules/IPA-DN-WebNeko/Scripts/Common/Base/Html";
+import { ClipboardUtil, Html } from "./submodules/IPA-DN-WebNeko/Scripts/Common/Base/Html";
 import { Secure } from "./submodules/IPA-DN-WebNeko/Scripts/Common/Base/Secure";
 import { Task } from "./submodules/IPA-DN-WebNeko/Scripts/Common/Base/Task";
 import { Axios, Vue, Buefy } from "./submodules/IPA-DN-WebNeko/Scripts/Imports";
@@ -410,6 +410,21 @@ export function ThinWebClient_Remote_PageLoad(window: Window, page: Document, we
     const isDebug = pref.EnableDebug as boolean;
     const display = page.getElementById("display")!;
 
+    let enableClipboardC2S: boolean = pref.EnableClipboardC2S;
+    let enableClipboardS2C: boolean = pref.EnableClipboardS2C;
+    let enableClipboard = enableClipboardC2S || enableClipboardS2C;
+    let enableMic = pref.EnableMic;
+
+    if (misc.IsShareDisabled)
+    {
+        enableClipboardC2S = enableClipboardS2C = enableClipboard = false;
+    }
+
+    if (!misc.IsAudioInSupported)
+    {
+        enableMic = false;
+    }
+
     // 高速化のまじない (効かないかも)
     function window_animate_callback(timestamp: number): void
     {
@@ -563,6 +578,99 @@ export function ThinWebClient_Remote_PageLoad(window: Window, page: Document, we
 
     let onceMsgShowed = false;
 
+    // From guacamole-client-1.3.0\guacamole\src\main\webapp\app\client\types\ManagedClient.js:323
+    const requestAudioStream = (client: Guacamole.Client): void =>
+    {
+        if (enableMic)
+        {
+            try
+            {
+                // Create new audio stream, associating it with an AudioRecorder
+                const mimeType = "audio/L16;rate=44100,channels=2";
+                const stream = client.createAudioStream(mimeType);
+                const recorder = Guacamole.AudioRecorder.getInstance(stream, mimeType);
+
+                // If creation of the AudioRecorder failed, simply end the stream
+                if (!recorder)
+                {
+                    stream.sendEnd();
+                }
+                // Otherwise, ensure that another audio stream is created after this
+                // audio stream is closed
+                else
+                {
+                    // @ts-ignore
+                    recorder.onclose = requestAudioStream.bind(this, client);
+                }
+            }
+            catch { }
+        }
+    };
+
+    //const clipboardService = new GuacAppClipboardService(window);
+    const clipboardUtil = new ClipboardUtil();
+
+    // From guacamole-client-1.3.0\guacamole\src\main\webapp\app\index\controllers\indexController.js:153
+    const checkClipboard = async function checkClipboard(): Promise<void>
+    {
+        if (enableClipboardC2S)
+        {
+            try
+            {
+                const data = await clipboardUtil.TryReadLocalClipboardAsync();
+
+                if (Str.IsFilled(data))
+                {
+                    // From guacamole-client-1.3.0\guacamole\src\main\webapp\app\client\directives\guacClient.js:416
+                    // From guacamole-client-1.3.0\guacamole\src\main\webapp\app\client\types\ManagedClient.js:707
+                    // @ts-ignore
+                    const stream = guac.createClipboardStream(data.Type);
+
+                    const writer = new Guacamole.StringWriter(stream);
+                    writer.sendText(data);
+                    writer.sendEnd();
+
+                    //console.log("sent");
+                }
+            }
+            catch { }
+        }
+    };
+
+    if (enableClipboardS2C)
+    {
+        // @ts-ignore
+        guac.onclipboard = function clientClipboardReceived(stream: Guacamole.InputStream, mimetype: string): void
+        {
+            try
+            {
+                // From guacamole-client-1.3.0\guacamole\src\main\webapp\app\client\types\ManagedClient.js
+                if (/^text\//.exec(mimetype))
+                {
+                    const reader = new Guacamole.StringReader(stream);
+
+                    let data = "";
+
+                    // @ts-ignore
+                    reader.ontext = function textReceived(text: string): void
+                    {
+                        data += text;
+                    };
+
+                    // @ts-ignore
+                    reader.onend = function textComplete(): void
+                    {
+                        //console.log("recv clip");
+                        //console.log(data);
+
+                        clipboardUtil.WriteLocalClipboardAsync(data);
+                    };
+                }
+            }
+            catch { }
+        };
+    }
+
     // @ts-ignore
     guac.onstatechange = function (state: GuaStates): void
     {
@@ -600,6 +708,16 @@ export function ThinWebClient_Remote_PageLoad(window: Window, page: Document, we
                     }
                 }, false);
             }
+
+            if (enableMic)
+            {
+                requestAudioStream(guac);
+            }
+
+            if (enableClipboardC2S)
+            {
+                checkClipboard();
+            }
         }
     };
 
@@ -612,6 +730,19 @@ export function ThinWebClient_Remote_PageLoad(window: Window, page: Document, we
     window.onunload = function (): void
     {
         guac.disconnect();
+    }
+
+    // Clipboard
+    if (enableClipboardC2S)
+    {
+        window.addEventListener("load", checkClipboard, true);
+        window.addEventListener("copy", checkClipboard);
+        window.addEventListener("cut", checkClipboard);
+        window.addEventListener("focus", function focusGained(e)
+        {
+            if (e.target === window)
+                checkClipboard();
+        }, true);
     }
 
     // Mouse

@@ -76,6 +76,10 @@
                             <input type="checkbox" class="switch" asp-for="CurrentProfile.Preference.EnableAudio" id="EnableAudio"><label for="EnableAudio"><strong><stb>THINWEB_ENABLEAUDIO</stb></strong></label>
                         </p>
                         <p>
+                            <input type="checkbox" class="switch" asp-for="CurrentProfile.Preference.EnableMic" id="EnableMic"><label for="EnableMic"><strong><stb>THINWEB_ENABLEMIC</stb></strong></label>
+                            <br><i class="fas fa-microphone"></i> <stb>THINWEB_ENABLEMIC_WARNING</stb>
+                        </p>
+                        <p>
                             <input type="checkbox" class="switch" asp-for="CurrentProfile.Preference.EnableWallPaper" id="EnableWallPaper"><label for="EnableWallPaper"><strong><stb>THINWEB_ENABLEWALLPAPER</stb></strong></label>
                         </p>
                         <p>
@@ -83,6 +87,14 @@
                         </p>
                         <p>
                             <input type="checkbox" class="switch" asp-for="CurrentProfile.Preference.EnableFontSmoothing" id="EnableFontSmoothing"><label for="EnableFontSmoothing"><strong><stb>THINWEB_ENABLEFONTSMOOTHING</stb></strong></label>
+                        </p>
+                        <p>
+                            <input type="checkbox" class="switch" asp-for="CurrentProfile.Preference.EnableClipboardC2S" id="EnableClipboardC2S"><label for="EnableClipboardC2S"><strong><stb>THINWEB_ENABLECLIPBOARD_C2S</stb></strong></label>
+                            <br><i class="far fa-clipboard"></i> <stb>THINWEB_ENABLECLIPBOARD_WARNING</stb>
+                        </p>
+                        <p>
+                            <input type="checkbox" class="switch" asp-for="CurrentProfile.Preference.EnableClipboardS2C" id="EnableClipboardS2C"><label for="EnableClipboardS2C"><strong><stb>THINWEB_ENABLECLIPBOARD_S2C</stb></strong></label>
+                            <br><i class="far fa-clipboard"></i> <stb>THINWEB_ENABLECLIPBOARD_WARNING</stb>
                         </p>
                         <p>
                             <input type="checkbox" class="switch" asp-for="CurrentProfile.Preference.EnableFullWindowDrag" id="EnableFullWindowDrag"><label for="EnableFullWindowDrag"><strong><stb>THINWEB_ENABLEFULLWINDOWDRAG</stb></strong></label>
