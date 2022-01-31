@@ -1,5 +1,6 @@
 ﻿@model ThinWebClientModelSessionAuthPassword
 @{
+    Model._MarkNotNull();
     Page.Title = Page.Stb["THINWEB_ADV_TITLE"]._FormatC(Model.ConnectOptions!.Pcid);
 }
 <h2 class="title is-4"><img src="~/images/loading.gif" width="40" height="40"> @Page.Title</h2>

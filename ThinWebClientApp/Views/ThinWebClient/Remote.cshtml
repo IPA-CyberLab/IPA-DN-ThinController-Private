@@ -1,5 +1,6 @@
 ﻿@model ThinWebClientModelRemote
 @{
+    Model._MarkNotNull();
     Layout = "_Layout_Remote";
     Page.Title = $"\"{Model.ConnectOptions!.Pcid._MakeVerySafeAsciiOnlyNonSpaceFileName()}\"" + Page.Stb["THINWEB_REMOTE"];
 
