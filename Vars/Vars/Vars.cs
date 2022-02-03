@@ -68,7 +68,7 @@ namespace IPA.App.ThinVars
             // ファイルをマスター証明書として取り扱っています。
             // マスター証明書の置換は、以下のファイル名を変更するか、または、上記のファイルに使用したい証明書データファイルを上書きすることで可能です。
             static readonly Singleton<PalX509Certificate> MasterCert_Singleton =
-                new Singleton<PalX509Certificate>(() => new PalX509Certificate(new FilePath(AppGlobal.AppRes, 
+                new Singleton<PalX509Certificate>(() => new PalX509Certificate(new FilePath(AppGlobal.AppRes,
                     "ThinControllerCerts/00_Master.cer")));
 
             public static PalX509Certificate MasterCert => MasterCert_Singleton;
@@ -79,7 +79,7 @@ namespace IPA.App.ThinVars
             // ファイルをコントローラの HTTPS サーバー証明書と秘密鍵として取り扱っています。
             // コントローラの HTTPS サーバー証明書と秘密鍵の置換は、以下のファイル名を変更するか、または、上記のファイルに使用したい証明書データファイルを上書きすることで可能です。
             static readonly Singleton<PalX509Certificate> ControllerCert_Singleton =
-                new Singleton<PalX509Certificate>(() => new PalX509Certificate(new FilePath(AppGlobal.AppRes, 
+                new Singleton<PalX509Certificate>(() => new PalX509Certificate(new FilePath(AppGlobal.AppRes,
                     "ThinControllerCerts/02_Controller.pfx")));
 
             public static PalX509Certificate ControllerCert => ControllerCert_Singleton;
@@ -90,7 +90,7 @@ namespace IPA.App.ThinVars
             // ファイルを HTML5 クライアント証明書認証 ルート CA 証明書として取り扱っています。
             // HTML5 クライアント証明書認証 ルート CA 証明書の置換は、以下のファイル名を変更するか、または、上記のファイルに使用したい証明書データファイルを上書きすることで可能です。
             static readonly Singleton<PalX509Certificate> Html5ClientCertAuth_RootCaCert_Singleton =
-                new Singleton<PalX509Certificate>(() => new PalX509Certificate(new FilePath(AppGlobal.AppRes, 
+                new Singleton<PalX509Certificate>(() => new PalX509Certificate(new FilePath(AppGlobal.AppRes,
                     "ThinWebClient_ClientCertAuth_SampleCerts/01_thin_html5_cert_auth_sample_root_ca.cer")));
 
             public static PalX509Certificate Html5ClientCertAuth_RootCaCert => Html5ClientCertAuth_RootCaCert_Singleton;
@@ -101,13 +101,16 @@ namespace IPA.App.ThinVars
         {
             public static void InitMain()
             {
+
                 //////// --- ここから シン・テレワークシステム プライベート版を用いて有償の商用サービスを実装したいユーザー (システム開発者) 向けの機能です。以下の設定を変更して商用サービスを構築できます。 ---
+#if false       // この機能を有効にするには、← のコンパイル条件文を false から true に変更してください。
+
                 // 商用サービス化機能の有効化フラグ (true で有効)
                 ThinControllerGlobalSettings.PaidService_Enabled.TrySetValue(true);
 
                 // 体験版としての動作が開始された後、どれくらいの時間で体験版の利用期限が切れるかの設定。TimeSpan 構造体のコンストラクタを設定するものである。設定方法は TimeSpan 構造体のコンストラクタのドキュメントを参照せよ。
                 // TimeSpan 構造体のドキュメント: https://docs.microsoft.com/ja-jp/dotnet/api/system.timespan
-                ThinControllerGlobalSettings.PaidService_TrialSpan.TrySetValue(new TimeSpan(0, 0, 1, 0));
+                ThinControllerGlobalSettings.PaidService_TrialSpan.TrySetValue(new TimeSpan(0, 1, 0, 0)); // テストとして 1 時間と設定している。
 
                 // 体験版の利用期限が切れたか、製品版のアクティベーションが切れた場合に表示される Web ページの URL
                 // <PCID>: コンピュータ名
@@ -119,6 +122,8 @@ namespace IPA.App.ThinVars
                 // HTTP RPC を呼び出す際の固定認証ユーザー名とパスワード文字列。この文字列は運用開始前に必ず変更し、秘密として保持すること。
                 ThinControllerGlobalSettings.PaidService_RpcAuthUsername.TrySetValue("USERNAME_HERE");
                 ThinControllerGlobalSettings.PaidService_RpcAuthPassword.TrySetValue("PASSWORD_HERE");
+
+#endif
             }
         }
 
