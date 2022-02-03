@@ -110,10 +110,11 @@ namespace IPA.App.ThinVars
                 ThinControllerGlobalSettings.PaidService_TrialSpan.TrySetValue(new TimeSpan(0, 0, 1, 0));
 
                 // 体験版の利用期限が切れたか、製品版のアクティベーションが切れた場合に表示される Web ページの URL
-                // <PCID> の部分は、コンピュータ ID に置換される。
-                // <FLAG> の部分は、フラグに置換される。詳しくは、ThinControllerPaidServiceRedirectUrlStatusFlag 列挙体を参照せよ。
-                // <TAG> の部分は、商用サービス用 API で設定されるタグ文字列に置換される。詳しくは、API ドキュメントを参照せよ。
-                ThinControllerGlobalSettings.PaidService_RedirectUrl.TrySetValue("https://example.org/?pcid=<PCID>&flag=<FLAG>&tag=<TAG>");
+                // <PCID>: コンピュータ名
+                // <STATUS>: TrialExpired または Deactivated のいずれか
+                // <EXPIRED>: STATUS が TrialExpired の場合、体験版の有効期限が切れた日時。Status が Deactivated の場合、解約された日。YYYYMMDDHHMMSS 形式
+                // <TAG>: アクティベーションまたはアクティベーション解除時に指定されたタグ文字列
+                ThinControllerGlobalSettings.PaidService_RedirectUrl.TrySetValue("https://example.org/expired/?status=<STATUS>&expired=<EXPIRED>&pcid=<PCID>&tag=<TAG>");
 
                 // HTTP RPC を呼び出す際の固定認証ユーザー名とパスワード文字列。この文字列は運用開始前に必ず変更し、秘密として保持すること。
                 ThinControllerGlobalSettings.PaidService_RpcAuthUsername.TrySetValue("USERNAME_HERE");
