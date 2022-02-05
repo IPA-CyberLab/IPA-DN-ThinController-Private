@@ -117,6 +117,7 @@ namespace IPA.App.ThinVars
                 // <STATUS>: TrialExpired または Deactivated のいずれか
                 // <EXPIRED>: STATUS が TrialExpired の場合、体験版の有効期限が切れた日時。Status が Deactivated の場合、解約された日。YYYYMMDDHHMMSS 形式
                 // <TAG>: アクティベーションまたはアクティベーション解除時に指定されたタグ文字列
+                // 注意: 展開後の URL は 256 文字以内である必要がある。これを超過した場合は、URL は切り捨てられる。
                 ThinControllerGlobalSettings.PaidService_RedirectUrl.TrySetValue("https://example.org/expired/?status=<STATUS>&expired=<EXPIRED>&pcid=<PCID>&tag=<TAG>");
 
                 // HTTP RPC を呼び出す際の固定認証ユーザー名とパスワード文字列。この文字列は運用開始前に必ず変更し、秘密として保持すること。
