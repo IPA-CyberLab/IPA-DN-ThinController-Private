@@ -26,15 +26,30 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Build Debug IPA-DN-ThinController-Private
+
+
+
+      - name: Build Debug IPA-DN-ThinController-Private-VS2022.sln
         run: dotnet build -c Debug IPA-DN-ThinController-Private-VS2022.sln
 
-      - name: Test Debug
+      - name: Test Debug IPA-DN-ThinController-Private-VS2022.sln
         run: dotnet test -c Debug -v normal --logger:"console;verbosity=detailed" IPA-DN-ThinController-Private-VS2022.sln
 
-      - name: Build Release IPA-DN-ThinController-Private
+
+
+      - name: Build Release IPA-DN-ThinController-Private-VS2022.sln
         run: dotnet build -c Release IPA-DN-ThinController-Private-VS2022.sln
 
-      - name: Test Release
+      - name: Test Release IPA-DN-ThinController-Private-VS2022.sln
         run: dotnet test -c Release -v normal --logger:"console;verbosity=detailed" IPA-DN-ThinController-Private-VS2022.sln
+
+
+
+      - name: Build Debug IPA-DN-ThinWebClient-Private-VS2022.sln
+        run: dotnet build -c Debug -v normal IPA-DN-ThinWebClient-Private-VS2022.sln
+
+      - name: Build Release IPA-DN-ThinWebClient-Private-VS2022.sln
+        run: dotnet build -c Release -v normal IPA-DN-ThinWebClient-Private-VS2022.sln
+
+
 
