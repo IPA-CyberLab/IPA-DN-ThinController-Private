@@ -67,10 +67,10 @@ jobs:
 
 
 
-      - name: Build Debug IPA-DN-ThinController-Private.sln
+      - name: Build Debug IPA-DN-ThinController-Private-VS2022.sln
         run: dotnet build -c Debug -v normal IPA-DN-ThinController-Private-VS2022.sln
 
-      - name: Build Release IPA-DN-ThinController-Private.sln
+      - name: Build Release IPA-DN-ThinController-Private-VS2022.sln
         run: dotnet build -c Release -v normal IPA-DN-ThinController-Private-VS2022.sln
 
 
