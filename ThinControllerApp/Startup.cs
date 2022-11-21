@@ -124,7 +124,8 @@ namespace IPA.App.ThinControllerApp
             AspNetLib.Configure(StartupHelper, app, env);
 
             // 基本的な設定を追加
-            StartupHelper.Configure(app, env);
+            StartupHelper.ConfigurePre(app, env);
+            StartupHelper.ConfigureAuth(app, env);
 
             // エラーページを追加
             if (StartupHelper.IsDevelopmentMode)

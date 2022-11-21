@@ -4,11 +4,13 @@
       "commandName": "Executable",
       "executablePath": "$(ProjectDir)\\..\\submodules\\IPA-DN-Cores\\Cores.NET\\Dev.Tools\\CompiledBin\\DebugHost.exe",
       "commandLineArgs": "restart $(ProjectName) dotnet exec $(TargetPath) Daemon Test",
-      "workingDirectory": ".\\"
+      "workingDirectory": ".\\",
+      "applicationUrl": "http://localhost:80"
     },
     "SingleProcess Debug": {
       "commandName": "Project",
-      "commandLineArgs": "Daemon TestDebug /AppId:$(ProjectName)"
+      "commandLineArgs": "Daemon TestDebug /AppId:$(ProjectName)",
+      "applicationUrl": "http://localhost:80"
     }
   }
 }
